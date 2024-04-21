@@ -6,6 +6,8 @@ class Hotel(models.Model):
     location = models.CharField(max_length=100)
     description = models.TextField()
     rating = models.FloatField(default=0.0)
+    pricing = models.DecimalField(max_digits=10,decimal_places=2)
+
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='hotels')
 
     def __str__(self):
