@@ -11,4 +11,5 @@ urlpatterns = [
     path('api/', include('Event.urls')),
     path('api/', include('chat_app.urls')),
     path('api/', include('offer.urls')),
+    path('api/', include('ScrpingData.urls')),
 ]
