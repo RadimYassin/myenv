@@ -1,8 +1,7 @@
 from django.db import models
 from destination_app.models import Destination
-from django.contrib.auth import get_user_model
+from user_app.models import  User
 
-User = get_user_model()
 
 class Review(models.Model):
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='reviews')
