@@ -18,24 +18,35 @@ def create_offre(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def offre_detail(request, pk):
+@api_view(['GET'])
+def get_offre_detail(request, pk):
     try:
         offre = Offre.objects.get(pk=pk)
     except Offre.DoesNotExist:
         return Response({'error': 'Offre not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'GET':
-        serializer = OffreSerializer(offre)
+    serializer = OffreSerializer(offre)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def update_offre(request, pk):
+    try:
+        offre = Offre.objects.get(pk=pk)
+    except Offre.DoesNotExist:
+        return Response({'error': 'Offre not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = OffreSerializer(offre, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
         return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'PUT':
-        serializer = OffreSerializer(offre, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['DELETE'])
+def delete_offre(request, pk):
+    try:
+        offre = Offre.objects.get(pk=pk)
+    except Offre.DoesNotExist:
+        return Response({'error': 'Offre not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    elif request.method == 'DELETE':
-        offre.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    offre.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
