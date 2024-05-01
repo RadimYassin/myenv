@@ -11,19 +11,26 @@ def get_all_hotels(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-def create_hotel(request):
-    serializer = HotelSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        
-        # Handle images
-        images_data = request.FILES.getlist('images')
-        for image_data in images_data:
-            HotelImage.objects.create(hotel=serializer.instance, image=image_data)
-        
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+def add_hotel_api_view(request):
+    if request.method == 'POST':
+        serializer = HotelSerializer(data=request.data)
+        if serializer.is_valid():
+            # Save hotel data
+            serializer.save()
 
+            # Save images
+            images_data = request.FILES.getlist('images')  # Assuming 'images' is the field name for images
+            for image_data in images_data:
+                # Assuming you have a separate serializer for handling images
+                image_serializer = HotelImageSerializer(data={'image': image_data})
+                if image_serializer.is_valid():
+                    image_serializer.save(hotel_id=serializer.data['id'])  # Assuming hotel_id is the foreign key to Hotel
+                else:
+                    # Handle invalid image serializer
+                    return Response(image_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 @api_view(['GET'])
 def get_hotel_detail(request, pk):
     try:

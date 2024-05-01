@@ -7,7 +7,7 @@ class HotelImageSerializer(serializers.ModelSerializer):
         fields = ('image',"image_url")
 
 class HotelSerializer(serializers.ModelSerializer):
-    images = HotelImageSerializer(many=True, read_only=True)
+    images = HotelImageSerializer(many=True,required=False)
 
     class Meta:
         model = Hotel
