@@ -6,18 +6,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-eq##w221jli_vviba%=mkeawm&9*x=osupiy=$lv42cu8&c26h'
 
 DEBUG = True
+ALLOWED_HOSTS = ['*']
 
-ALLOWED_HOSTS = ['*']  # For development purposes, allow all hosts
 
+
+
+
+# Installed Apps
 INSTALLED_APPS = [
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-party apps
     'corsheaders',
     'rest_framework',
+    # Your apps
     'destination_app',
     'hotel_app',
     'restaurant',
@@ -30,8 +37,10 @@ INSTALLED_APPS = [
     'attraction',
 ]
 
+# Custom User Model
 AUTH_USER_MODEL = 'user_app.User'
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -39,12 +48,23 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+  "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Root URL config
 ROOT_URLCONF = 'api.urls'
+ALLOWED_HOSTS = ['172.20.10.10']
 
+# Corsheaders settings
+CORS_ALLOWED_ORIGINS = (
+    'http://localhost',
+    "http://localhost:3000"
+)
+
+CORS_ORIGIN_ALLOW_ALL = True
+# Template configuration
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -61,34 +81,12 @@ TEMPLATES = [
     },
 ]
 
+# WSGI application
 WSGI_APPLICATION = 'api.wsgi.application'
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:19000',
-    'http://localhost:8080',
-]
+# CORS settings
 
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS'
-]
-
-CORS_ALLOW_HEADERS = [
-    'Accept',
-    'Accept-Encoding',
-    'Authorization',
-    'Content-Type',
-    'Origin',
-    'X-CSRFToken',
-    'X-Requested-With'
-]
-
-CORS_ALLOW_CREDENTIALS = True
-
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -103,25 +101,26 @@ DATABASES = {
     }
 }
 
+# Rest Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
+# Media files (User-uploaded content)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Other settings
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
