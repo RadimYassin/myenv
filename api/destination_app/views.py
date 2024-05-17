@@ -5,16 +5,10 @@ from .models import Destination
 from .DestinationSerializer import DestinationSerializer
 
 @api_view(['GET'])
-def get_all_destinations(request):
-    # Retrieve all destinations with their attractions and order them by a specific attribute of the attractions
-    destinations = Destination.objects.prefetch_related('attractions').order_by('-rating')
-
-    # Serialize the destinations
+def destination_list_with_events(request):
+    destinations = Destination.objects.all()
     serializer = DestinationSerializer(destinations, many=True)
-    
-    # Return the serialized data as a JSON response
     return Response(serializer.data)
-
 @api_view(['POST'])
 def create_destination(request):
     serializer = DestinationSerializer(data=request.data)

@@ -10,4 +10,6 @@ urlpatterns = [
     path('users/', views.get_all_users, name='get_all_users'),  # URL for getting all users
     path('users/<int:pk>/update/', views.update_user, name='update_user'),
     path('users/<int:pk>/delete/', views.delete_user, name='delete_user'),
+    path('usersBymonth/', views.users_by_month, name='users_by_month'),  # URL for getting all users
+
 ]

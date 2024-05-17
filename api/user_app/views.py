@@ -5,7 +5,8 @@ from rest_framework.exceptions import AuthenticationFailed
 from .userSerializers import UserSerializer
 from .models import User
 import jwt, datetime
-
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
 @api_view(['POST'])
 def register(request):
     serializer = UserSerializer(data=request.data)
@@ -36,7 +37,7 @@ def login(request):
 
     response = Response()
     response.set_cookie(key='jwt', value=token, httponly=True)
-    response.data = {'jwt': token}
+    response.data = {'jwt': token,"is_staff":user.is_staff}
     return response
 
 @api_view(['GET'])
@@ -98,3 +99,13 @@ def delete_user(request, pk):
     if request.method == 'DELETE':
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+@api_view(['GET'])
+def users_by_month(request):
+    users_by_month = User.objects.annotate(month=TruncMonth('created_at')).values('month').annotate(total=Count('id')).order_by('month')
+
+    # Format the month in YYYY-MM format
+    formatted_data = [
+        {'month': month['month'].strftime('%m')[1], 'total': month['total']}
+    for month in users_by_month]
+
+    return Response(formatted_data)

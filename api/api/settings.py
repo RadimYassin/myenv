@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-eq##w221jli_vviba%=mkeawm&9*x=osupiy=$lv42cu8&c26h'
 
 DEBUG = True
-ALLOWED_HOSTS = ['*']
+
 
 
 
@@ -55,7 +55,7 @@ MIDDLEWARE = [
 
 # Root URL config
 ROOT_URLCONF = 'api.urls'
-ALLOWED_HOSTS = ['172.20.10.10']
+ALLOWED_HOSTS = ['*','172.20.10.10','192.168.100.134'," 192.168.137.27","192.168.1.104","192.168.192.1"]
 
 # Corsheaders settings
 CORS_ALLOWED_ORIGINS = (
@@ -111,6 +111,9 @@ REST_FRAMEWORK = {
 STATIC_URL = '/static/'
 
 # Media files (User-uploaded content)
+# The `MEDIA_URL` setting in Django specifies the base URL to serve media files from. In this case, it
+# is set to '/media/', so any media files uploaded by users will be served from URLs starting with
+# '/media/'.
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
